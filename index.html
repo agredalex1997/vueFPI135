@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Random User API</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!--Aqui mando a llamar el bootstrap 4-->
+  <link rel="stylesheet" href="./css/bootstrap.css">
+
+  <!--Aca esta el script para que funcione lo de vue.js-->
+  <script src="./js/vue.js"></script>
+</head>
+
+<!--El style dentro del body es para que no quede todo pegado a los bordes-->
+<body style="margin: 55px;">
+  <div id="app">
+    <div class="container">
+
+      <div class="navbar fixed-top navbar-dark bg-primary">
+          <div id="clientes" class="col-md-4">
+              <div class="input-group">
+                  <div class="input-group-prepend">
+                      <button class="btn btn-default" @click="obtenerClientes">Get clients</button>
+                  </div>
+                  <input type="number" name="" class="form-control" id="" v-model="cantidad">
+                </div>
+            </div>
+
+            <div id="buscar" class="col-md-4 d-none d-sm-block">
+                <input type="text" name="" class="form-control" id="" placeholder="Search..." v-model="busqueda">
+            </div>
+
+            <div id="filtros" class="col-md-4">
+              <div class="row">
+                <div class="col-md-3">
+                    <div class="input-group checkbox">
+                        <label for="genero">
+                          <input id="genero" type="checkbox" @click="filtrarInfo" class="checkbox" value="genero" checked="checked"> Gender
+                        </label>
+                      </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group checkbox">
+                        <label for="ciudad">
+                          <input id="ciudad" type="checkbox" @click="filtrarInfo" class="checkbox" value="cuidad" checked="checked"> City</label>
+                      </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="checkbox input-group">
+                        <label for="email">
+                          <input id="email" type="checkbox" @click="filtrarInfo" class="checkbox" value="email" checked="checked"> Email</label>
+                        </div>
+                </div>
+              </div>
+            </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 col-sm-4 col-md-3" v-for="(cliente,conta) in clientes" v-show="aplicarfiltro(cliente.name.first + cliente.name.last)">
+          <div class="card" style="margin: 5px;">
+            <img class="card-img-top" v-bind:src="cliente.picture.large" alt="Client picture">
+            <div class="card-body">
+                <h5 class="card-title">{{cliente.name.title}}. {{cliente.name.first}} {{cliente.name.last}}</h5>
+                <p class="card-text" v-if="genero">Gender: {{cliente.gender}}</p>
+                <p class="card-text" v-if="email">Email: {{cliente.email}}</p>
+                <p class="card-text" v-if="ciudad">City: {{cliente.location.city}}</p>
+            </div>
+            <div class="card-footer" style="text-align: center;">
+              <button class="btn btn-success" @click="aceptarCliente(conta)">Accept</button>
+              <button class="btn btn-warning" @click="rechazarCliente(conta)">Decline</button>
+            </div>
+          </div>
+        </div>
+      </div>
+        <div class="navbar fixed-bottom">
+            <div class="col-md-6">
+              <span style="width: 100%;" class="badge badge-primary">Aceptados: {{aceptados}}</span>
+            </div>
+              <div class="col-md-6" style="text-align: center;">
+                <span style="width: 100%;" class="badge badge-danger">Rechazados: {{rechazados}}</span>
+              </div>
+        </div>
+    </div>
+  </div>
+  </div>
+
+  <script src="./js/axios.js"></script>
+
+  <!--Aqui es donde esta toda la logica de la "pagina"-->
+  <script src="./js/main.js"></script>
+
+</body>
+
+</html>
